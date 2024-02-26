@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2024-02-25T20:00:15-08:00",
+    "name": "Gate",
+    "author": "summiner13@gmail.com",
+    "description": "Gate is an extensible, high performant & paralleled Minecraft proxy server with scalability, flexibility & excellent server version support - written in Go and ready for the cloud!",
+    "features": null,
+    "docker_images": {
+        "quay.io\/parkervcp\/pterodactyl-images:base_alpine": "quay.io\/parkervcp\/pterodactyl-images:base_alpine"
+    },
+    "file_denylist": [],
+    "startup": ".\/gate",
+    "config": {
+        "files": "{\r\n    \"config.yml\": {\r\n        \"parser\": \"yaml\",\r\n        \"find\": {\r\n            \"config.bind\": \"0.0.0.0:{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Gate Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\nexport GOPATH=$HOME\/go\r\nexport PATH=$GOROOT\/bin:$GOPATH\/bin:$PATH\r\nmkdir ~\/tmp\r\nexport TMPDIR=~\/tmp\r\n\r\ncd\r\n\r\napk add --no-cache --update git make\r\n\r\necho \"pulling the gate repo\"\r\n\r\ngit clone https:\/\/github.com\/minekube\/gate.git\r\n\r\ncd gate\/\r\n\r\ngo mod download\r\n\r\necho \"building gate\"\r\n\r\ngo build\r\n\r\ncp gate \/mnt\/server\r\n\r\necho \"build complete\"\r\n\r\nif [ -f \/mnt\/server\/config.yml ]; then\r\n    echo \"config file exists already\"\r\nelse\r\n    cp -r \/root\/gate\/config.yml \/mnt\/server\/config.yml\r\nfi\r\n\r\necho \"Install complete.\"",
+            "container": "golang:1.22-alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": []
+}
